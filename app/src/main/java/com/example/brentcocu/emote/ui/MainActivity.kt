@@ -1,7 +1,8 @@
-package com.example.brentcocu.emote
+package com.example.brentcocu.emote.ui
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.example.brentcocu.emote.R
 
 class MainActivity : AppCompatActivity() {
 
