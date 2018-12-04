@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    <data>
 
-    <androidx.appcompat.widget.AppCompatTextView android:id="@+id/name"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent" />
+        <variable
+            name="actions"
+            type="com.example.brentcocu.emote.viewmodels.EmotionListActions" />
 
-</RelativeLayout>
+        <variable
+            name="item"
+            type="com.example.brentcocu.emote.models.Emotion" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="15sp"
+            android:padding="10dp"
+            android:text="@{item.name}"
+            android:onClick="@{() -> actions.remove(item)}"/>
+
+    </RelativeLayout>
+
+</layout>

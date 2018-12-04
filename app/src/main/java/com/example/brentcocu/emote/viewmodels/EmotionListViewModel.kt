@@ -1,12 +1,14 @@
 package com.example.brentcocu.emote.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.brentcocu.emote.models.Emotion
 
-class EmotionListViewModel : ViewModel() {
+class EmotionListViewModel : ViewModel(), EmotionListActions {
 
-    internal val dataSet: MutableLiveData<List<Emotion>> = MutableLiveData()
+    private val _dataSet: MutableLiveData<List<Emotion>> = MutableLiveData()
+    val dataSet: LiveData<List<Emotion>> = _dataSet
 
     // TODO(replace with real db-connection)
     private val db: MutableList<Emotion> = mutableListOf(
@@ -19,15 +21,23 @@ class EmotionListViewModel : ViewModel() {
         update()
     }
 
-    fun insert(emotion : Emotion) {
+    override fun insert(emotion: Emotion) {
         db.add(emotion)
         update()
     }
 
-    fun remove(emotion : Emotion) {
+    override fun remove(emotion: Emotion) {
         db.remove(emotion)
         update()
     }
 
-    private fun update() { dataSet.value = db }
+    private fun update() {
+        _dataSet.value = db
+    }
+
+}
+
+interface EmotionListActions {
+    fun insert(emotion: Emotion)
+    fun remove(emotion: Emotion)
 }

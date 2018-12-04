@@ -22,16 +22,16 @@ class EmotionManagementFragment : Fragment() {
         super.onCreate(savedInstanceState)
         val view = inflater.inflate(R.layout.emotion_management_fragment, container, false)
 
-        // Initialize view model and adapter
+        // Initialize view-model and adapter
         emotionListViewModel = ViewModelProviders
             .of(this)
             .get(EmotionListViewModel::class.java)
-        emotionListAdapter = EmotionListAdapter(emotionListViewModel.dataSet.value!!)
+        emotionListAdapter = EmotionListAdapter(emotionListViewModel.dataSet.value!!, emotionListViewModel)
 
         val viewManager = LinearLayoutManager(this.context)
 
         // Hook recyclerView and initialize
-        view.findViewById<RecyclerView>(R.id.container).apply {
+        view.findViewById<RecyclerView>(R.id.emotion_management_recyclerview).apply {
             layoutManager = viewManager
             adapter = emotionListAdapter
         }
@@ -44,8 +44,8 @@ class EmotionManagementFragment : Fragment() {
     private fun setupCallbacks() {
         emotionListViewModel.dataSet.observe(
             this,
-            Observer<List<Emotion>> {
-                newData -> emotionListAdapter.setDataSet(newData)
+            Observer<List<Emotion>> { newData ->
+                emotionListAdapter.onDataSetChange(newData)
             }
         )
     }

@@ -1,23 +1,24 @@
 package com.example.brentcocu.emote.ui
 
-import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.example.brentcocu.emote.R
+import androidx.recyclerview.widget.RecyclerView
+import com.example.brentcocu.emote.databinding.EmotionManagementItemFragmentBinding
 import com.example.brentcocu.emote.models.Emotion
+import com.example.brentcocu.emote.ui.EmotionListAdapter.EmotionViewHolder
+import com.example.brentcocu.emote.viewmodels.EmotionListActions
 
-class EmotionListAdapter(private var dataSet: List<Emotion>) :
-    androidx.recyclerview.widget.RecyclerView.Adapter<EmotionListAdapter.EmotionViewHolder>() {
+typealias Binding = EmotionManagementItemFragmentBinding
+
+class EmotionListAdapter(private var dataSet: List<Emotion>, private val actions: EmotionListActions) :
+    RecyclerView.Adapter<EmotionViewHolder>() {
 
     // Create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmotionViewHolder {
-        // create a new view
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.emotion_management_item_fragment, parent, false)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = Binding.inflate(inflater)
 
-        return EmotionViewHolder(view)
+        return EmotionViewHolder(binding)
     }
 
     // Return the size of the dataset
@@ -25,18 +26,25 @@ class EmotionListAdapter(private var dataSet: List<Emotion>) :
 
     // Replace the contents of a view
     override fun onBindViewHolder(holder: EmotionViewHolder, position: Int) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.name.text = dataSet[position].name
-        // TODO("Actually retrieve color property from emotion object")
-        holder.name.setTextColor(Color.RED)
+        holder.bind(dataSet[position])
     }
 
-    fun setDataSet(dataSet: List<Emotion>) {
+    // Replace dataset and notify the adapter
+    fun onDataSetChange(dataSet: List<Emotion>) {
         this.dataSet = dataSet
+        notifyDataSetChanged()
     }
 
-    class EmotionViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
-        var name: TextView = view.findViewById(R.id.name)
+    inner class EmotionViewHolder(private val binding: Binding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.actions = actions
+        }
+
+        fun bind(item: Emotion) {
+            binding.item = item
+        }
     }
+
 }

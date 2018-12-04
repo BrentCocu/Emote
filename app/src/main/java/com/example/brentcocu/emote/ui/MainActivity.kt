@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         val fragment = EmotionManagementFragment()
-        fragmentTransaction.add(R.id.testen, fragment)
+        fragmentTransaction.add(R.id.content_root, fragment)
         fragmentTransaction.commit()
     }
 }
