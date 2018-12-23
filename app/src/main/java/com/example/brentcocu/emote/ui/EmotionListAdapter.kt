@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.brentcocu.emote.databinding.EmotionManagementItemFragmentBinding
-import com.example.brentcocu.emote.models.Emotion
+import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.ui.EmotionListAdapter.EmotionViewHolder
 import com.example.brentcocu.emote.viewmodels.EmotionListActions
 

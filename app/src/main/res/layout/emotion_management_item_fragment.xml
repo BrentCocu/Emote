@@ -9,7 +9,7 @@
 
         <variable
             name="item"
-            type="com.example.brentcocu.emote.models.Emotion" />
+            type="com.example.brentcocu.emote.datamodels.Emotion" />
     </data>
 
     <RelativeLayout

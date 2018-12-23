@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.brentcocu.emote.R
-import com.example.brentcocu.emote.models.Emotion
+import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.viewmodels.EmotionListViewModel
 
 class EmotionManagementFragment : Fragment() {

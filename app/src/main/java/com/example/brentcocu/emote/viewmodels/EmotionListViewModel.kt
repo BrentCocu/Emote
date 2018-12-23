@@ -2,10 +2,9 @@ package com.example.brentcocu.emote.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.brentcocu.emote.models.Emotion
+import com.example.brentcocu.emote.datamodels.Emotion
 
-class EmotionListViewModel : ViewModel(), EmotionListActions {
+class EmotionListViewModel : BaseViewModel(), EmotionListActions {
 
     private val _dataSet: MutableLiveData<List<Emotion>> = MutableLiveData()
     val dataSet: LiveData<List<Emotion>> = _dataSet
@@ -19,6 +18,7 @@ class EmotionListViewModel : ViewModel(), EmotionListActions {
 
     init {
         update()
+
     }
 
     override fun insert(emotion: Emotion) {
