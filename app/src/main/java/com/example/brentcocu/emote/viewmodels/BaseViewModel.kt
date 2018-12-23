@@ -3,6 +3,7 @@ package com.example.brentcocu.emote.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.brentcocu.emote.datamodels.Emotion
 import io.reactivex.disposables.CompositeDisposable
 
 open class BaseViewModel : ViewModel() {
@@ -14,6 +15,7 @@ open class BaseViewModel : ViewModel() {
 
     init {
         TODO("Define an inject")
+        // Emotion()
     }
 
     protected fun sendMessage(resId: Int) = _onMessage.postValue(resId)
