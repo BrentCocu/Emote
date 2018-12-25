@@ -3,20 +3,23 @@ package com.example.brentcocu.emote.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.brentcocu.emote.datamodels.Emotion
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.addTo
 
-open class BaseViewModel : ViewModel() {
+abstract class BaseViewModel : ViewModel() {
 
-    protected val compositeDisposable = CompositeDisposable()
+    private val compositeDisposable = CompositeDisposable()
 
     private val _onMessage = MutableLiveData<Int>()
     val onMessage: LiveData<Int> = _onMessage
 
-    init {
-        TODO("Define an inject")
-        // Emotion()
-    }
-
     protected fun sendMessage(resId: Int) = _onMessage.postValue(resId)
+
+    protected fun registerDisposable(disposable: Disposable) = disposable.addTo(compositeDisposable)
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
+    }
 }
