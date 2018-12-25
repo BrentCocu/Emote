@@ -1,6 +1,5 @@
 package com.example.brentcocu.emote.viewmodels
 
-import android.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.brentcocu.emote.application.Application
@@ -14,44 +13,42 @@ class EmotionListViewModel : BaseViewModel(), EmotionListActions {
     @Inject
     lateinit var emotionRepository: EmotionRepository
 
-    private val _dataSet: MutableLiveData<List<Emotion>> = MutableLiveData()
-    val dataSet: LiveData<List<Emotion>> = _dataSet
-
-    // TODO(replace with real db-connection)
-    private val db: MutableList<Emotion> = mutableListOf(
-        Emotion("Angry", Color.RED),
-        Emotion("Anxious", Color.GREEN),
-        Emotion("Happy", Color.BLUE)
-    )
+    private val _data: MutableLiveData<List<Emotion>> = MutableLiveData()
+    val data: LiveData<List<Emotion>> = _data
 
     init {
         Application.appComponent.inject(this)
-        update()
-        println("\n\nStart")
-        val sub = emotionRepository.getAll()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                println("\n\nInside")
-                it.forEach { x -> println(x.name) }
-            }
-        registerDisposable(sub)
-        println("\n\nEnd")
+        _data.value = listOf()
+        getData()
     }
 
     override fun insert(emotion: Emotion) {
-        db.add(emotion)
-        update()
+        registerDisposable(
+            emotionRepository.insert(emotion)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError { println(it.message) }
+                .subscribe()
+        )
     }
 
     override fun remove(emotion: Emotion) {
-        db.remove(emotion)
-        update()
+        registerDisposable(
+            emotionRepository.delete(emotion)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError { println(it.message) }
+                .subscribe()
+        )
     }
 
-    private fun update() {
-        _dataSet.value = db
+    private fun getData() {
+        registerDisposable(
+            emotionRepository.getAll()
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext { _data.value = it }
+                .doOnError { println(it.message) }
+                .subscribe()
+        )
     }
-
 }
 
 interface EmotionListActions {
