@@ -8,22 +8,31 @@ import androidx.room.RoomDatabase
 import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.util.Constants
 import io.reactivex.schedulers.Schedulers
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.*
 
 @Database(
     entities = [Emotion::class],
     version = 1
 )
-abstract class AppDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase(), AnkoLogger {
     abstract fun emotionDao(): EmotionDao
 
     private fun populate() {
-        emotionDao().let {
-            Schedulers.io().scheduleDirect {
-                this.clearAllTables()
-                it.insert(Emotion("Angry", Color.RED)).subscribe({ println("pop succes") }, { throwable -> println("pop fail ${throwable.message}") })
-                it.insert(Emotion("Anxious", Color.GREEN)).subscribe({ println("pop succes") }, { throwable -> println("pop fail ${throwable.message}") })
-                it.insert(Emotion("Happy", Color.BLUE)).subscribe({ println("pop succes") }, { throwable -> println("pop fail ${throwable.message}") })
-            }
+        Schedulers.io().doAsync {
+            this@AppDatabase.clearAllTables()
+            this@AppDatabase.emotionDao()
+                .insertAll(
+                    listOf(
+                        Emotion("Angry", Color.RED),
+                        Emotion("Anxious", Color.GREEN),
+                        Emotion("Happy", Color.BLUE)
+                    )
+                )
+                .doOnComplete { info("Database reinitialised") }
+                .doOnError { error("@ populate", it) }
+                .subscribe()
         }
     }
 

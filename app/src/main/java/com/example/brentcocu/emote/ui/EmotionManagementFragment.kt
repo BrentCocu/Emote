@@ -26,7 +26,7 @@ class EmotionManagementFragment : Fragment() {
         emotionListViewModel = ViewModelProviders
             .of(this)
             .get(EmotionListViewModel::class.java)
-        emotionListAdapter = EmotionListAdapter(emotionListViewModel.dataSet.value!!, emotionListViewModel)
+        emotionListAdapter = EmotionListAdapter(emotionListViewModel.data.value!!, emotionListViewModel)
 
         val viewManager = LinearLayoutManager(this.context)
 
@@ -42,7 +42,7 @@ class EmotionManagementFragment : Fragment() {
     }
 
     private fun setupCallbacks() {
-        emotionListViewModel.dataSet.observe(
+        emotionListViewModel.data.observe(
             this,
             Observer<List<Emotion>> { newData ->
                 emotionListAdapter.onDataSetChange(newData)

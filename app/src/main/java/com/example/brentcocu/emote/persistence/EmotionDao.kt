@@ -14,6 +14,10 @@ interface EmotionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(emotion: Emotion): Completable
 
+    // Purely exist for seeding the db
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(emotions: List<Emotion>): Completable
+
     @Delete
     fun delete(emotion: Emotion): Completable
 
