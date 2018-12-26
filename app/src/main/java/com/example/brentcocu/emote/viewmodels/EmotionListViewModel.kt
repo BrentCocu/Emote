@@ -6,6 +6,7 @@ import com.example.brentcocu.emote.application.Application
 import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.repositories.EmotionRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
+import org.jetbrains.anko.*
 import javax.inject.Inject
 
 class EmotionListViewModel : BaseViewModel(), EmotionListActions {
@@ -26,7 +27,7 @@ class EmotionListViewModel : BaseViewModel(), EmotionListActions {
         registerDisposable(
             emotionRepository.insert(emotion)
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError { println(it.message) }
+                .doOnError { error("@ insert", it) }
                 .subscribe()
         )
     }
@@ -35,7 +36,16 @@ class EmotionListViewModel : BaseViewModel(), EmotionListActions {
         registerDisposable(
             emotionRepository.delete(emotion)
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError { println(it.message) }
+                .doOnError { error("@ remove", it) }
+                .subscribe()
+        )
+    }
+
+    override fun update(emotion: Emotion) {
+        registerDisposable(
+            emotionRepository.update(emotion)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError { error("@ update", it) }
                 .subscribe()
         )
     }
@@ -45,7 +55,7 @@ class EmotionListViewModel : BaseViewModel(), EmotionListActions {
             emotionRepository.getAll()
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { _data.value = it }
-                .doOnError { println(it.message) }
+                .doOnError { error("@ getData", it) }
                 .subscribe()
         )
     }
@@ -54,4 +64,5 @@ class EmotionListViewModel : BaseViewModel(), EmotionListActions {
 interface EmotionListActions {
     fun insert(emotion: Emotion)
     fun remove(emotion: Emotion)
+    fun update(emotion: Emotion)
 }
