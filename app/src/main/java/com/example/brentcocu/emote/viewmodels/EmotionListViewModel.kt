@@ -5,25 +5,29 @@ import androidx.lifecycle.MutableLiveData
 import com.example.brentcocu.emote.application.Application
 import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.repositories.EmotionRepository
+import com.example.brentcocu.emote.ui.EmotionListAdapterActions
 import io.reactivex.android.schedulers.AndroidSchedulers
-import org.jetbrains.anko.*
+import org.jetbrains.anko.error
+import org.jetbrains.anko.info
 import javax.inject.Inject
 
-class EmotionListViewModel : BaseViewModel(), EmotionListActions {
+class EmotionListViewModel : BaseViewModel(), EmotionListAdapterActions {
 
     @Inject
     lateinit var emotionRepository: EmotionRepository
 
-    private val _data: MutableLiveData<List<Emotion>> = MutableLiveData()
-    val data: LiveData<List<Emotion>> = _data
+    private val _emotionList = MutableLiveData<List<Emotion>>()
+    val emotionList: LiveData<List<Emotion>> = _emotionList
+
+    private val _selectedEmotion = MutableLiveData<Emotion>()
+    val selectedEmotion: LiveData<Emotion> = _selectedEmotion
 
     init {
         Application.appComponent.inject(this)
-        _data.value = listOf()
-        getData()
+        initEmotionList()
     }
 
-    override fun insert(emotion: Emotion) {
+    fun add(emotion: Emotion) {
         registerDisposable(
             emotionRepository.insert(emotion)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -32,7 +36,7 @@ class EmotionListViewModel : BaseViewModel(), EmotionListActions {
         )
     }
 
-    override fun remove(emotion: Emotion) {
+    fun delete(emotion: Emotion) {
         registerDisposable(
             emotionRepository.delete(emotion)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -41,7 +45,7 @@ class EmotionListViewModel : BaseViewModel(), EmotionListActions {
         )
     }
 
-    override fun update(emotion: Emotion) {
+    fun update(emotion: Emotion) {
         registerDisposable(
             emotionRepository.update(emotion)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -50,19 +54,18 @@ class EmotionListViewModel : BaseViewModel(), EmotionListActions {
         )
     }
 
-    private fun getData() {
+    override fun select(emotion: Emotion) {
+        _selectedEmotion.value = emotion
+        info("Selected ${emotion.name}")
+    }
+
+    private fun initEmotionList() {
         registerDisposable(
             emotionRepository.getAll()
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { _data.value = it }
-                .doOnError { error("@ getData", it) }
+                .doOnNext { _emotionList.value = it }
+                .doOnError { error("@ getEmotionList", it) }
                 .subscribe()
         )
     }
-}
-
-interface EmotionListActions {
-    fun insert(emotion: Emotion)
-    fun remove(emotion: Emotion)
-    fun update(emotion: Emotion)
 }

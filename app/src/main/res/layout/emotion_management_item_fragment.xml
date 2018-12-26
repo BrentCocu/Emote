@@ -4,11 +4,7 @@
     <data>
 
         <variable
-            name="actions"
-            type="com.example.brentcocu.emote.viewmodels.EmotionListActions" />
-
-        <variable
-            name="item"
+            name="emotion"
             type="com.example.brentcocu.emote.datamodels.Emotion" />
     </data>
 
@@ -17,12 +13,13 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/emotion_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="15sp"
             android:padding="10dp"
-            android:text="@{item.name}"
-            android:onClick="@{() -> actions.remove(item)}"/>
+            android:text="@{emotion.name}"
+            android:textColor="@{emotion.color}"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 

@@ -6,45 +6,40 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.brentcocu.emote.databinding.EmotionManagementItemFragmentBinding
 import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.ui.EmotionListAdapter.EmotionViewHolder
-import com.example.brentcocu.emote.viewmodels.EmotionListActions
 
-typealias Binding = EmotionManagementItemFragmentBinding
-
-class EmotionListAdapter(private var dataSet: List<Emotion>, private val actions: EmotionListActions) :
+class EmotionListAdapter(private val actions: EmotionListAdapterActions) :
     RecyclerView.Adapter<EmotionViewHolder>() {
 
-    // Create new views
+    private var emotionList: List<Emotion> = listOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmotionViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = Binding.inflate(inflater)
+        val binding = EmotionManagementItemFragmentBinding.inflate(inflater)
 
         return EmotionViewHolder(binding)
     }
 
-    // Return the size of the dataset
-    override fun getItemCount(): Int = dataSet.size
+    override fun getItemCount(): Int = emotionList.size
 
-    // Replace the contents of a view
     override fun onBindViewHolder(holder: EmotionViewHolder, position: Int) {
-        holder.bind(dataSet[position])
+        holder.bind(emotionList[position])
     }
 
-    // Replace dataset and notify the adapter
-    fun onDataSetChange(dataSet: List<Emotion>) {
-        this.dataSet = dataSet
+    fun onDataSetChange(emotionList: List<Emotion>) {
+        this.emotionList = emotionList
         notifyDataSetChanged()
     }
 
-    inner class EmotionViewHolder(private val binding: Binding) :
+    inner class EmotionViewHolder(private val binding: EmotionManagementItemFragmentBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.actions = actions
-        }
-
-        fun bind(item: Emotion) {
-            binding.item = item
+        fun bind(emotion: Emotion) {
+            binding.emotion = emotion
+            binding.emotionView.setOnClickListener { actions.select(emotion) }
         }
     }
+}
 
+interface EmotionListAdapterActions {
+    fun select(emotion: Emotion)
 }

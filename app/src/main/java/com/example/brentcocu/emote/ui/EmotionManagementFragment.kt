@@ -1,53 +1,63 @@
 package com.example.brentcocu.emote.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.brentcocu.emote.R
+import com.example.brentcocu.emote.databinding.EmotionManagementFragmentBinding
 import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.viewmodels.EmotionListViewModel
 
 class EmotionManagementFragment : Fragment() {
 
-    private lateinit var emotionListViewModel: EmotionListViewModel
-    private lateinit var emotionListAdapter: EmotionListAdapter
+    private lateinit var binding: EmotionManagementFragmentBinding
+    private lateinit var model: EmotionListViewModel
+    private lateinit var adapter: EmotionListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
-        val view = inflater.inflate(R.layout.emotion_management_fragment, container, false)
+        binding = EmotionManagementFragmentBinding.inflate(inflater)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // Initialize view-model and adapter
-        emotionListViewModel = ViewModelProviders
+        model = ViewModelProviders
             .of(this)
             .get(EmotionListViewModel::class.java)
-        emotionListAdapter = EmotionListAdapter(emotionListViewModel.data.value!!, emotionListViewModel)
-
-        val viewManager = LinearLayoutManager(this.context)
+        adapter = EmotionListAdapter(model)
 
         // Hook recyclerView and initialize
-        view.findViewById<RecyclerView>(R.id.emotion_management_recyclerview).apply {
-            layoutManager = viewManager
-            adapter = emotionListAdapter
+        binding.recyclerview.apply {
+            layoutManager = LinearLayoutManager(this@EmotionManagementFragment.context)
+            adapter = this@EmotionManagementFragment.adapter
         }
 
         setupCallbacks()
+        setupListeners()
+    }
 
-        return view
+    private fun setupListeners() {
+        binding.addBttn.setOnClickListener { model.add(Emotion("Test", Color.BLACK)) }
     }
 
     private fun setupCallbacks() {
-        emotionListViewModel.data.observe(
-            this,
-            Observer<List<Emotion>> { newData ->
-                emotionListAdapter.onDataSetChange(newData)
-            }
-        )
+        model.let {
+            it.emotionList.observe(this,
+                Observer { list -> adapter.onDataSetChange(list) }
+            )
+            it.onMessage.observe(this,
+                Observer { res -> Toast.makeText(context, res, Toast.LENGTH_SHORT).show() }
+            )
+        }
     }
-
 }
