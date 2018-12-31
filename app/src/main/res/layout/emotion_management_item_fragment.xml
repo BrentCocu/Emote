@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -9,17 +10,53 @@
     </data>
 
     <RelativeLayout
+        style="@style/Content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="64dp">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/emotion_view"
+            style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            android:text="@{emotion.name}"
-            android:textColor="@{emotion.color}"
-            android:textSize="15sp" />
+            android:layout_height="wrap_content"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:background="@{emotion.color}" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="@android:color/white"
+                    android:text="@{emotion.name}"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </com.google.android.material.card.MaterialCardView>
 
     </RelativeLayout>
 

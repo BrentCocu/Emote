@@ -1,34 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-<variable
-    name="emotion"
-    type="com.example.brentcocu.emote.datamodels.Emotion" />
+
+        <variable
+            name="emotion"
+            type="com.example.brentcocu.emote.datamodels.Emotion" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <View
+            android:id="@+id/color_view"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:background="@{emotion.color}" />
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="name"
-            android:text="@={emotion.name}"/>
+            android:layout_margin="8dp"
+            android:hint="@string/emotion_name"
+            app:boxStrokeColor="@{emotion.color}"
+            app:hintTextColor="@{emotion.color}">
 
-        <Button
-            android:id="@+id/update_bttn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="update"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@={emotion.name}"/>
 
-        <Button
-            android:id="@+id/delete_bttn"
-            android:layout_width="wrap_content"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.ButtonBarLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="delete"/>
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/update_bttn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:backgroundTint="@{emotion.color}"
+                android:text="@string/save" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/delete_bttn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:backgroundTint="@{emotion.color}"
+                android:text="@string/delete" />
+
+        </androidx.appcompat.widget.ButtonBarLayout>
 
     </LinearLayout>
 </layout>

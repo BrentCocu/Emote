@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Emote</string>
+    <string name="emotion_name">Naam</string>
+    <string name="save">Opslaan</string>
+    <string name="delete">Verwijderen</string>
+    <string name="menu_overview">Overzicht</string>
+    <string name="menu_emotions">Emoties</string>
+    <string name="menu_settings">Instellingen</string>
+    <string name="title_emotions">Emoties</string>
 </resources>

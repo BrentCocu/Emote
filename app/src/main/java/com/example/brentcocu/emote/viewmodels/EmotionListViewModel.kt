@@ -5,13 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import com.example.brentcocu.emote.application.Application
 import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.repositories.EmotionRepository
+import com.example.brentcocu.emote.ui.EmotionEditFragmentActions
 import com.example.brentcocu.emote.ui.EmotionListAdapterActions
 import io.reactivex.android.schedulers.AndroidSchedulers
 import org.jetbrains.anko.error
 import org.jetbrains.anko.info
 import javax.inject.Inject
 
-class EmotionListViewModel : BaseViewModel(), EmotionListAdapterActions {
+class EmotionListViewModel : BaseViewModel(), EmotionListAdapterActions, EmotionEditFragmentActions {
 
     @Inject
     lateinit var emotionRepository: EmotionRepository
@@ -27,7 +28,7 @@ class EmotionListViewModel : BaseViewModel(), EmotionListAdapterActions {
         initEmotionList()
     }
 
-    fun add(emotion: Emotion) {
+    override fun add(emotion: Emotion) {
         registerDisposable(
             emotionRepository.insert(emotion)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -36,7 +37,7 @@ class EmotionListViewModel : BaseViewModel(), EmotionListAdapterActions {
         )
     }
 
-    fun delete(emotion: Emotion) {
+    override fun delete(emotion: Emotion) {
         registerDisposable(
             emotionRepository.delete(emotion)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -45,7 +46,7 @@ class EmotionListViewModel : BaseViewModel(), EmotionListAdapterActions {
         )
     }
 
-    fun update(emotion: Emotion) {
+    override fun update(emotion: Emotion) {
         registerDisposable(
             emotionRepository.update(emotion)
                 .observeOn(AndroidSchedulers.mainThread())

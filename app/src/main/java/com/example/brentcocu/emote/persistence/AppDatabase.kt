@@ -10,7 +10,8 @@ import com.example.brentcocu.emote.util.Constants
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.*
+import org.jetbrains.anko.error
+import org.jetbrains.anko.info
 
 @Database(
     entities = [Emotion::class],
@@ -25,9 +26,9 @@ abstract class AppDatabase : RoomDatabase(), AnkoLogger {
             this@AppDatabase.emotionDao()
                 .insertAll(
                     listOf(
-                        Emotion("Angry", Color.RED),
-                        Emotion("Anxious", Color.GREEN),
-                        Emotion("Happy", Color.BLUE)
+                        Emotion("Angry", Color.parseColor("#d50000")),
+                        Emotion("Anxious", Color.parseColor("#43a047")),
+                        Emotion("Happy", Color.parseColor("#1976d2"))
                     )
                 )
                 .doOnComplete { info("Database reinitialised") }

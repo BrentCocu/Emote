@@ -1,17 +1,16 @@
 package com.example.brentcocu.emote.ui
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.brentcocu.emote.databinding.EmotionManagementFragmentBinding
-import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.viewmodels.EmotionListViewModel
 
 class EmotionManagementFragment : Fragment() {
@@ -31,9 +30,10 @@ class EmotionManagementFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Initialize view-model and adapter
-        model = ViewModelProviders
-            .of(this)
-            .get(EmotionListViewModel::class.java)
+        activity?.let {
+            model = ViewModelProviders
+                .of(it).get(EmotionListViewModel::class.java)
+        }
         adapter = EmotionListAdapter(model)
 
         // Hook recyclerView and initialize
@@ -47,7 +47,7 @@ class EmotionManagementFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        binding.addBttn.setOnClickListener { model.add(Emotion("Test", Color.BLACK)) }
+        //binding.addBttn.setOnClickListener { model.add(Emotion("Test", Color.BLACK)) }
     }
 
     private fun setupCallbacks() {

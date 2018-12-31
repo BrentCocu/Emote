@@ -1,5 +1,6 @@
 package com.example.brentcocu.emote.datamodels
 
+import android.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -11,4 +12,5 @@ data class Emotion(
     var color: Int
 ) {
     constructor(name: String, color: Int): this(null, name, color)
+    constructor(): this(null, "", Color.parseColor("#1976d2"))
 }
