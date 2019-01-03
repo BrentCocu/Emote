@@ -8,19 +8,22 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
+import com.example.brentcocu.emote.R
 import com.example.brentcocu.emote.databinding.EmotionEditFragmentBinding
 import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.viewmodels.EmotionManagementViewModel
-import org.jetbrains.anko.AnkoLogger
+import com.jaredrummler.android.colorpicker.ColorPickerDialog
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
+import com.jaredrummler.android.colorpicker.ColorShape
 
-class EmotionEditFragment : DialogFragment(), AnkoLogger {
+class EmotionEditFragment : DialogFragment(), ColorPickerDialogListener {
 
     private lateinit var binding: EmotionEditFragmentBinding
     private lateinit var model: EmotionManagementViewModel
     private lateinit var emotion: Emotion
 
-    private val _onColorEdit = MutableLiveData<Boolean>()
-    val onColorEdit: LiveData<Boolean> = _onColorEdit
+    private val _onShowRequest = MutableLiveData<Boolean>()
+    val onShowRequest: LiveData<Boolean> = _onShowRequest
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
@@ -43,10 +46,6 @@ class EmotionEditFragment : DialogFragment(), AnkoLogger {
         bind()
     }
 
-    fun setColor(color: Int) {
-        emotion.color = color
-    }
-
     private fun bind() {
         binding.emotion = emotion
         if (isNewEmotion())
@@ -54,7 +53,7 @@ class EmotionEditFragment : DialogFragment(), AnkoLogger {
     }
 
     private fun setupListeners() {
-        binding.colorView.setOnClickListener { _onColorEdit.value = true }
+        binding.colorView.setOnClickListener { showColorPickerDialog() }
         binding.updateBttn.setOnClickListener {
             if (isNewEmotion()) {
                 if (model.add(emotion)) dismiss()
@@ -70,6 +69,31 @@ class EmotionEditFragment : DialogFragment(), AnkoLogger {
 
     private fun isNewEmotion(): Boolean {
         return emotion.id == null
+    }
+
+    private fun showColorPickerDialog() {
+        ColorPickerDialog.newBuilder()
+            .setAllowCustom(false)
+            .setColorShape(ColorShape.CIRCLE)
+            .setShowColorShades(false)
+            .setShowAlphaSlider(false)
+            .setSelectedButtonText(R.string.select)
+            .setDialogTitle(R.string.empty)
+            .setDialogType(ColorPickerDialog.TYPE_PRESETS)
+            .setPresets(ColorPickerDialog.MATERIAL_COLORS)
+            .create().also {
+                it.setColorPickerDialogListener(this)
+                this.dismiss()
+                it.show(requireFragmentManager(), tag)
+            }
+    }
+
+    override fun onDialogDismissed(dialogId: Int) {
+        _onShowRequest.value = true
+    }
+
+    override fun onColorSelected(dialogId: Int, color: Int) {
+        emotion.color = color
     }
 }
 

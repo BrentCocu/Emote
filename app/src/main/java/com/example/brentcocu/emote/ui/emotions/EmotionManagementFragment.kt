@@ -4,19 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.brentcocu.emote.databinding.EmotionManagementFragmentBinding
 import com.example.brentcocu.emote.viewmodels.EmotionManagementViewModel
+import org.jetbrains.anko.toast
 
 class EmotionManagementFragment : Fragment() {
 
     private lateinit var binding: EmotionManagementFragmentBinding
     private lateinit var model: EmotionManagementViewModel
     private lateinit var adapter: EmotionListAdapter
+    private val dialog = EmotionEditFragment()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
@@ -51,10 +52,14 @@ class EmotionManagementFragment : Fragment() {
                 Observer { list -> adapter.onDataSetChange(list) }
             )
             it.onMessage.observe(this,
-                Observer { res ->
-                    Toast.makeText(context, res, Toast.LENGTH_SHORT).show()
-                }
+                Observer { res -> requireContext().toast(res) }
+            )
+            it.selectedEmotion.observe(this,
+                Observer { emotion -> if (emotion != null) showEmotionEditDialog() }
             )
         }
+        dialog.onShowRequest.observe(this, Observer { if (it) showEmotionEditDialog() })
     }
+
+    private fun showEmotionEditDialog() = dialog.show(requireFragmentManager(), dialog.tag)
 }
