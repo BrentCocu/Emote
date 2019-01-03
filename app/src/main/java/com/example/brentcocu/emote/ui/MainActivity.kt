@@ -1,9 +1,7 @@
 package com.example.brentcocu.emote.ui
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -11,7 +9,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.brentcocu.emote.R
 import com.example.brentcocu.emote.databinding.ActivityMainBinding
 import com.example.brentcocu.emote.datamodels.Emotion
-import com.example.brentcocu.emote.viewmodels.EmotionListViewModel
+import com.example.brentcocu.emote.ui.emotions.EmotionEditFragment
+import com.example.brentcocu.emote.ui.emotions.EmotionManagementFragment
+import com.example.brentcocu.emote.viewmodels.EmotionManagementViewModel
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import com.jaredrummler.android.colorpicker.ColorShape
@@ -31,25 +31,32 @@ class MainActivity : BaseActivity(), ColorPickerDialogListener {
         setContentView(binding.root)
 
         binding.bar.replaceMenu(R.menu.main)
-
-        showEmotionManagementFragment()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
-            R.id.overview -> toast("Overview clicked")
-            R.id.emotions -> toast("Emotions clicked")
-            R.id.settings -> toast("Settings clicked")
+        binding.bar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.overview -> {
+                    toast("overview")
+                    return@setOnMenuItemClickListener true
+                }
+                R.id.emotions -> {
+                    toast("emotions")
+                    return@setOnMenuItemClickListener true
+                }
+                R.id.settings -> {
+                    toast("settings")
+                    return@setOnMenuItemClickListener true
+                }
+                else -> false
+            }
         }
 
-        return true
+        showEmotionManagementFragment()
     }
 
     private fun showEmotionManagementFragment() {
         val fragment = EmotionManagementFragment()
         replaceContent(fragment)
         val model = ViewModelProviders
-            .of(this).get(EmotionListViewModel::class.java)
+            .of(this).get(EmotionManagementViewModel::class.java)
         model.selectedEmotion.observe(this,
             Observer { if (it != null) showEmotionEditFragment() }
         )

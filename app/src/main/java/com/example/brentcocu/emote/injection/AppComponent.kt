@@ -3,7 +3,7 @@ package com.example.brentcocu.emote.injection
 import android.content.Context
 import com.example.brentcocu.emote.repositories.EmotionRepository
 import com.example.brentcocu.emote.repositories.MomentRepository
-import com.example.brentcocu.emote.viewmodels.EmotionListViewModel
+import com.example.brentcocu.emote.viewmodels.EmotionManagementViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 interface AppComponent {
 
     // Register classes requiring injection
-    fun inject(emotionListViewModel: EmotionListViewModel)
+    fun inject(emotionManagementViewModel: EmotionManagementViewModel)
     fun inject(emotionRepository: EmotionRepository)
     fun inject(momentRepository: MomentRepository)
 

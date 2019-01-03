@@ -1,4 +1,4 @@
-package com.example.brentcocu.emote.ui
+package com.example.brentcocu.emote.ui.emotions
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,12 +10,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.brentcocu.emote.databinding.EmotionManagementFragmentBinding
-import com.example.brentcocu.emote.viewmodels.EmotionListViewModel
+import com.example.brentcocu.emote.viewmodels.EmotionManagementViewModel
 
 class EmotionManagementFragment : Fragment() {
 
     private lateinit var binding: EmotionManagementFragmentBinding
-    private lateinit var model: EmotionListViewModel
+    private lateinit var model: EmotionManagementViewModel
     private lateinit var adapter: EmotionListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,7 +31,7 @@ class EmotionManagementFragment : Fragment() {
         // Initialize view-model and adapter
         activity?.let {
             model = ViewModelProviders
-                .of(it).get(EmotionListViewModel::class.java)
+                .of(it).get(EmotionManagementViewModel::class.java)
         }
         adapter = EmotionListAdapter(model)
         adapter.setHasStableIds(true)

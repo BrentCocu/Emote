@@ -1,4 +1,4 @@
-package com.example.brentcocu.emote.ui
+package com.example.brentcocu.emote.ui.emotions
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,13 +10,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import com.example.brentcocu.emote.databinding.EmotionEditFragmentBinding
 import com.example.brentcocu.emote.datamodels.Emotion
-import com.example.brentcocu.emote.viewmodels.EmotionListViewModel
+import com.example.brentcocu.emote.viewmodels.EmotionManagementViewModel
 import org.jetbrains.anko.AnkoLogger
 
 class EmotionEditFragment : DialogFragment(), AnkoLogger {
 
     private lateinit var binding: EmotionEditFragmentBinding
-    private lateinit var model: EmotionListViewModel
+    private lateinit var model: EmotionManagementViewModel
     private lateinit var emotion: Emotion
 
     private val _onColorEdit = MutableLiveData<Boolean>()
@@ -34,7 +34,7 @@ class EmotionEditFragment : DialogFragment(), AnkoLogger {
 
         activity?.let {
             model = ViewModelProviders
-                .of(it).get(EmotionListViewModel::class.java)
+                .of(it).get(EmotionManagementViewModel::class.java)
         }
 
         emotion = model.selectedEmotion.value!!

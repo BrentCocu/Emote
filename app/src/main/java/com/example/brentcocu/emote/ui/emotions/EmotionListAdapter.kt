@@ -1,12 +1,11 @@
-package com.example.brentcocu.emote.ui
+package com.example.brentcocu.emote.ui.emotions
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.brentcocu.emote.databinding.EmotionManagementItemFragmentBinding
 import com.example.brentcocu.emote.datamodels.Emotion
-import com.example.brentcocu.emote.ui.EmotionListAdapter.EmotionViewHolder
+import com.example.brentcocu.emote.ui.emotions.EmotionListAdapter.EmotionViewHolder
 
 class EmotionListAdapter(private val actions: EmotionListAdapterActions) :
     RecyclerView.Adapter<EmotionViewHolder>() {

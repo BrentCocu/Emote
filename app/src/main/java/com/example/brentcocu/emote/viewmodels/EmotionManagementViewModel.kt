@@ -6,14 +6,14 @@ import com.example.brentcocu.emote.R
 import com.example.brentcocu.emote.application.Application
 import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.repositories.EmotionRepository
-import com.example.brentcocu.emote.ui.EmotionEditFragmentActions
-import com.example.brentcocu.emote.ui.EmotionListAdapterActions
+import com.example.brentcocu.emote.ui.emotions.EmotionEditFragmentActions
+import com.example.brentcocu.emote.ui.emotions.EmotionListAdapterActions
 import io.reactivex.android.schedulers.AndroidSchedulers
 import org.jetbrains.anko.error
-import org.jetbrains.anko.info
 import javax.inject.Inject
 
-class EmotionListViewModel : BaseViewModel(), EmotionListAdapterActions, EmotionEditFragmentActions {
+class EmotionManagementViewModel : BaseViewModel(), EmotionListAdapterActions,
+    EmotionEditFragmentActions {
 
     @Inject
     lateinit var emotionRepository: EmotionRepository
