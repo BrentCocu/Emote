@@ -17,4 +17,5 @@
     <string name="info_emotion_save">The changes you made have been saved.</string>
     <string name="info_emotion_add">A new emotion has been added.</string>
     <string name="info_emotion_delete">The emotion has been deleted.</string>
+    <string name="title_moments">Moments</string>
 </resources>

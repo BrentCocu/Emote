@@ -1,7 +1,9 @@
 package com.example.brentcocu.emote.ui
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,6 +15,7 @@ import com.example.brentcocu.emote.viewmodels.EmotionListViewModel
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import com.jaredrummler.android.colorpicker.ColorShape
+import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity(), ColorPickerDialogListener {
 
@@ -30,6 +33,16 @@ class MainActivity : BaseActivity(), ColorPickerDialogListener {
         binding.bar.replaceMenu(R.menu.main)
 
         showEmotionManagementFragment()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.overview -> toast("Overview clicked")
+            R.id.emotions -> toast("Emotions clicked")
+            R.id.settings -> toast("Settings clicked")
+        }
+
+        return true
     }
 
     private fun showEmotionManagementFragment() {

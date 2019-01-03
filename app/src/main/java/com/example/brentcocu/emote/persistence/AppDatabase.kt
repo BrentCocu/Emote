@@ -5,33 +5,61 @@ import android.graphics.Color
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.brentcocu.emote.datamodels.Emotion
+import com.example.brentcocu.emote.datamodels.Moment
 import com.example.brentcocu.emote.util.Constants
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.error
 import org.jetbrains.anko.info
+import java.util.*
 
 @Database(
-    entities = [Emotion::class],
+    entities = [Emotion::class, Moment::class],
     version = 1
 )
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase(), AnkoLogger {
+
     abstract fun emotionDao(): EmotionDao
+    abstract fun momentDao(): MomentDao
 
     private fun populate() {
+        val emotions = listOf(
+            Emotion(1,"Angry", Color.parseColor("#d50000")),
+            Emotion(2,"Anxious", Color.parseColor("#43a047")),
+            Emotion(3,"Happy", Color.parseColor("#1976d2"))
+        )
+        val moments = listOf(
+            Moment(
+                1,
+                1,
+                Date(),
+                "I feel angry",
+                listOf("Jane Doe", "Harry Tubman"),
+                "Head hurts"
+            ),
+            Moment(
+                2,
+                3,
+                Date(),
+                "I feel happy",
+                listOf("Brent Cocu", "Karel V", "Frederik D"),
+                "Bit hungry"
+            )
+        )
         Schedulers.io().doAsync {
             this@AppDatabase.clearAllTables()
             this@AppDatabase.emotionDao()
-                .insertAll(
-                    listOf(
-                        Emotion("Angry", Color.parseColor("#d50000")),
-                        Emotion("Anxious", Color.parseColor("#43a047")),
-                        Emotion("Happy", Color.parseColor("#1976d2"))
-                    )
-                )
-                .doOnComplete { info("Database reinitialised") }
+                .insertAll(emotions)
+                .doOnComplete { info("Database reinitialised - Emotions finished") }
+                .doOnError { error("@ populate", it) }
+                .subscribe()
+            this@AppDatabase.momentDao()
+                .insertAll(moments)
+                .doOnComplete { info("Database reinitialised - Moments finished") }
                 .doOnError { error("@ populate", it) }
                 .subscribe()
         }

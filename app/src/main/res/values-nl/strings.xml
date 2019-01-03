@@ -17,4 +17,5 @@
     <string name="info_emotion_save">Je aanpassingen werden opgeslagen.</string>
     <string name="info_emotion_add">Een nieuwe emotie werd toegevoegd.</string>
     <string name="info_emotion_delete">De emotie werd verwijderd.</string>
+    <string name="title_moments">Momenten</string>
 </resources>

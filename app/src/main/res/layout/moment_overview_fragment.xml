@@ -16,7 +16,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue"
+            android:background="@color/orange"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:paddingEnd="8dp"
@@ -24,7 +24,7 @@
             android:paddingTop="72dp"
             android:paddingBottom="60dp"
             android:elevation="2dp"
-            android:text="@string/title_emotions"
+            android:text="@string/title_moments"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
