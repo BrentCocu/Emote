@@ -8,4 +8,13 @@
     <string name="menu_emotions">Emotions</string>
     <string name="menu_settings">Settings</string>
     <string name="title_emotions">Emotions</string>
+    <string name="select">Select</string>
+    <string name="cancel">Cancel</string>
+    <string name="color_dialog_title">Choose a color</string>
+    <string name="empty" />
+    <string name="error_emotion_invalid_name">Make sure the name-field is not empty.</string>
+    <string name="error_generic">Something went wrong. Try again.</string>
+    <string name="info_emotion_save">The changes you made have been saved.</string>
+    <string name="info_emotion_add">A new emotion has been added.</string>
+    <string name="info_emotion_delete">The emotion has been deleted.</string>
 </resources>

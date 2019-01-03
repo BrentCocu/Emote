@@ -11,10 +11,13 @@ import com.example.brentcocu.emote.databinding.ActivityMainBinding
 import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.viewmodels.EmotionListViewModel
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
+import com.jaredrummler.android.colorpicker.ColorShape
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), ColorPickerDialogListener {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var dialog: EmotionEditFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,11 +44,28 @@ class MainActivity : BaseActivity() {
     }
 
     private fun showEmotionEditFragment() {
-        val dialog = EmotionEditFragment()
+        dialog = EmotionEditFragment()
         showDialog(dialog)
-        dialog.onDone.observe(this,
-            Observer { if (it) dialog.dismiss() }
+        dialog.onColorEdit.observe(this,
+            Observer { if (it) showColorPickerDialog() }
         )
+    }
+
+    private fun showDialog(dialogFragment: DialogFragment) =
+        dialogFragment.show(supportFragmentManager, dialogFragment.tag)
+
+    private fun showColorPickerDialog() {
+        dialog.dismiss()
+        ColorPickerDialog.newBuilder()
+            .setAllowCustom(false)
+            .setColorShape(ColorShape.CIRCLE)
+            .setShowColorShades(false)
+            .setShowAlphaSlider(false)
+            .setSelectedButtonText(R.string.select)
+            .setDialogTitle(R.string.empty)
+            .setDialogType(ColorPickerDialog.TYPE_PRESETS)
+            .setPresets(ColorPickerDialog.MATERIAL_COLORS)
+            .show(this)
     }
 
     private fun replaceContent(fragment: Fragment) {
@@ -54,13 +74,7 @@ class MainActivity : BaseActivity() {
         transaction.commit()
     }
 
-    private fun showDialog(dialogFragment: DialogFragment) {
-        val transaction = this.supportFragmentManager.beginTransaction()
-        dialogFragment.show(transaction, dialogFragment.tag)
-    }
+    override fun onDialogDismissed(dialogId: Int) = showDialog(dialog)
 
-    private fun showColorPickerDialog() {
-        ColorPickerDialog.newBuilder()
-            .setAllowCustom(false)
-    }
+    override fun onColorSelected(dialogId: Int, color: Int) = dialog.setColor(color)
 }

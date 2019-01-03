@@ -8,4 +8,13 @@
     <string name="menu_emotions">Emoties</string>
     <string name="menu_settings">Instellingen</string>
     <string name="title_emotions">Emoties</string>
+    <string name="select">Selecteer</string>
+    <string name="cancel">Annuleer</string>
+    <string name="color_dialog_title">Kies een kleur</string>
+    <string name="empty" />
+    <string name="error_emotion_invalid_name">Zorg ervoor dat het naam-veld niet leeg is.</string>
+    <string name="error_generic">Er ging iets mis. Probeer opnieuw.</string>
+    <string name="info_emotion_save">Je aanpassingen werden opgeslagen.</string>
+    <string name="info_emotion_add">Een nieuwe emotie werd toegevoegd.</string>
+    <string name="info_emotion_delete">De emotie werd verwijderd.</string>
 </resources>

@@ -4,24 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.brentcocu.emote.databinding.EmotionEditFragmentBinding
 import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.viewmodels.EmotionListViewModel
+import org.jetbrains.anko.AnkoLogger
 
-class EmotionEditFragment : DialogFragment() {
+class EmotionEditFragment : DialogFragment(), AnkoLogger {
 
     private lateinit var binding: EmotionEditFragmentBinding
     private lateinit var model: EmotionListViewModel
     private lateinit var emotion: Emotion
 
-    private val _onDone = MutableLiveData<Boolean>()
-    val onDone: LiveData<Boolean> = _onDone
+    private val _onColorEdit = MutableLiveData<Boolean>()
+    val onColorEdit: LiveData<Boolean> = _onColorEdit
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
@@ -40,9 +39,12 @@ class EmotionEditFragment : DialogFragment() {
 
         emotion = model.selectedEmotion.value!!
 
-        setupCallbacks()
         setupListeners()
         bind()
+    }
+
+    fun setColor(color: Int) {
+        emotion.color = color
     }
 
     private fun bind() {
@@ -52,26 +54,18 @@ class EmotionEditFragment : DialogFragment() {
     }
 
     private fun setupListeners() {
+        binding.colorView.setOnClickListener { _onColorEdit.value = true }
         binding.updateBttn.setOnClickListener {
-            if (isNewEmotion())
-                model.add(emotion)
-            else
-                model.update(emotion)
-            _onDone.value = true
+            if (isNewEmotion()) {
+                if (model.add(emotion)) dismiss()
+            } else
+                if (model.update(emotion)) dismiss()
         }
         if (!isNewEmotion())
             binding.deleteBttn.setOnClickListener {
                 model.delete(emotion)
-                _onDone.value = true
+                dismiss()
             }
-    }
-
-    private fun setupCallbacks() {
-        model.let {
-            it.onMessage.observe(this,
-                Observer { res -> Toast.makeText(context, res, Toast.LENGTH_SHORT).show() }
-            )
-        }
     }
 
     private fun isNewEmotion(): Boolean {
@@ -80,7 +74,7 @@ class EmotionEditFragment : DialogFragment() {
 }
 
 interface EmotionEditFragmentActions {
-    fun update(emotion: Emotion)
+    fun update(emotion: Emotion): Boolean
     fun delete(emotion: Emotion)
-    fun add(emotion: Emotion)
+    fun add(emotion: Emotion): Boolean
 }

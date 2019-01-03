@@ -1,6 +1,7 @@
 package com.example.brentcocu.emote.ui
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.brentcocu.emote.databinding.EmotionManagementItemFragmentBinding
@@ -20,6 +21,8 @@ class EmotionListAdapter(private val actions: EmotionListAdapterActions) :
     }
 
     override fun getItemCount(): Int = emotionList.size
+
+    override fun getItemId(position: Int): Long = emotionList[position].id!!.toLong()
 
     override fun onBindViewHolder(holder: EmotionViewHolder, position: Int) {
         holder.bind(emotionList[position])
