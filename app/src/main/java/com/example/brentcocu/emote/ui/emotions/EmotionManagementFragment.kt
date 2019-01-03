@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.brentcocu.emote.databinding.EmotionManagementFragmentBinding
 import com.example.brentcocu.emote.viewmodels.EmotionManagementViewModel
-import org.jetbrains.anko.toast
 
 class EmotionManagementFragment : Fragment() {
 
@@ -30,10 +28,7 @@ class EmotionManagementFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Initialize view-model and adapter
-        activity?.let {
-            model = ViewModelProviders
-                .of(it).get(EmotionManagementViewModel::class.java)
-        }
+        model = EmotionManagementViewModel.getScopedInstance(requireActivity())
         adapter = EmotionListAdapter(model)
         adapter.setHasStableIds(true)
 
@@ -47,17 +42,12 @@ class EmotionManagementFragment : Fragment() {
     }
 
     private fun setupCallbacks() {
-        model.let {
-            it.emotionList.observe(this,
-                Observer { list -> adapter.onDataSetChange(list) }
-            )
-            it.onMessage.observe(this,
-                Observer { res -> requireContext().toast(res) }
-            )
-            it.selectedEmotion.observe(this,
-                Observer { emotion -> if (emotion != null) showEmotionEditDialog() }
-            )
-        }
+        model.emotionList.observe(this,
+            Observer { list -> adapter.onDataSetChange(list) }
+        )
+        model.selectedEmotion.observe(this, Observer { event ->
+            event.getContentIfNotHandled()?.let { showEmotionEditDialog() }
+        })
         dialog.onShowRequest.observe(this, Observer { if (it) showEmotionEditDialog() })
     }
 

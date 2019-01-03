@@ -1,13 +1,16 @@
 package com.example.brentcocu.emote.viewmodels
 
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProviders
 import com.example.brentcocu.emote.R
 import com.example.brentcocu.emote.application.Application
 import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.repositories.EmotionRepository
 import com.example.brentcocu.emote.ui.emotions.EmotionEditFragmentActions
 import com.example.brentcocu.emote.ui.emotions.EmotionListAdapterActions
+import com.example.brentcocu.emote.util.Event
 import io.reactivex.android.schedulers.AndroidSchedulers
 import org.jetbrains.anko.error
 import javax.inject.Inject
@@ -21,8 +24,8 @@ class EmotionManagementViewModel : BaseViewModel(), EmotionListAdapterActions,
     private val _emotionList = MutableLiveData<List<Emotion>>()
     val emotionList: LiveData<List<Emotion>> = _emotionList
 
-    private val _selectedEmotion = MutableLiveData<Emotion>()
-    val selectedEmotion: LiveData<Emotion> = _selectedEmotion
+    private val _selectedEmotion = MutableLiveData<Event<Emotion>>()
+    val selectedEmotion: LiveData<Event<Emotion>> = _selectedEmotion
 
     init {
         Application.appComponent.inject(this)
@@ -73,7 +76,7 @@ class EmotionManagementViewModel : BaseViewModel(), EmotionListAdapterActions,
     }
 
     override fun select(emotion: Emotion) {
-        _selectedEmotion.value = emotion.copy()
+        _selectedEmotion.value = Event(emotion.copy())
     }
 
     private fun initEmotionList() {
@@ -101,5 +104,11 @@ class EmotionManagementViewModel : BaseViewModel(), EmotionListAdapterActions,
         return emotion.apply {
             name = name.trim()
         }
+    }
+
+    companion object {
+        fun getScopedInstance(activity: FragmentActivity): EmotionManagementViewModel = ViewModelProviders
+            .of(activity)
+            .get(EmotionManagementViewModel::class.java)
     }
 }

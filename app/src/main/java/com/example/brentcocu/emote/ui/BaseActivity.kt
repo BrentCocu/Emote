@@ -3,7 +3,10 @@ package com.example.brentcocu.emote.ui
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import com.example.brentcocu.emote.viewmodels.BaseViewModel
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.toast
 
 abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
 
@@ -21,5 +24,11 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger {
             winParams.flags = winParams.flags and bits.inv()
         }
         win.attributes = winParams
+    }
+
+    protected fun handleMessages(viewModel: BaseViewModel) {
+        viewModel.onMessage.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { resId -> toast(resId) }
+        })
     }
 }

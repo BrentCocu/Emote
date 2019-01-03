@@ -3,13 +3,13 @@ package com.example.brentcocu.emote.ui
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.example.brentcocu.emote.R
 import com.example.brentcocu.emote.databinding.ActivityMainBinding
 import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.ui.emotions.EmotionManagementFragment
 import com.example.brentcocu.emote.ui.moments.MomentOverviewFragment
 import com.example.brentcocu.emote.viewmodels.EmotionManagementViewModel
+import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity() {
 
@@ -30,18 +30,25 @@ class MainActivity : BaseActivity() {
     private fun showEmotionManagementFragment(): Boolean {
         val fragment = EmotionManagementFragment()
         replaceContent(fragment)
-        val model = ViewModelProviders
-            .of(this).get(EmotionManagementViewModel::class.java)
+
+        val model = EmotionManagementViewModel.getScopedInstance(this)
+        handleMessages(model)
+
         binding.fab.setOnClickListener { model.select(Emotion()) }
+
         return true
     }
-
-    // TODO: fix issues with events being emitted multiple times: SingleEventShite
-    // TODO: fix horrible orange color of moments-fragment
 
     private fun showMomentOverviewFragment(): Boolean {
         val fragment = MomentOverviewFragment()
         replaceContent(fragment)
+
+        return true
+    }
+
+    private fun showSettingsFragment(): Boolean {
+        toast("Settings")
+
         return true
     }
 
@@ -57,7 +64,7 @@ class MainActivity : BaseActivity() {
             when (it.itemId) {
                 R.id.overview -> showMomentOverviewFragment()
                 R.id.emotions -> showEmotionManagementFragment()
-                R.id.settings -> true
+                R.id.settings -> showSettingsFragment()
                 else -> false
             }
         }

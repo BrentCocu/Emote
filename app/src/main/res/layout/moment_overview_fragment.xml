@@ -16,7 +16,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/orange"
+            android:background="@color/red"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:paddingEnd="8dp"

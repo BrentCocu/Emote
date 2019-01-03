@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProviders
 import com.example.brentcocu.emote.R
 import com.example.brentcocu.emote.databinding.EmotionEditFragmentBinding
 import com.example.brentcocu.emote.datamodels.Emotion
@@ -35,12 +34,9 @@ class EmotionEditFragment : DialogFragment(), ColorPickerDialogListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.let {
-            model = ViewModelProviders
-                .of(it).get(EmotionManagementViewModel::class.java)
-        }
+        model = EmotionManagementViewModel.getScopedInstance(requireActivity())
 
-        emotion = model.selectedEmotion.value!!
+        emotion = model.selectedEmotion.value!!.getContent()
 
         setupListeners()
         bind()

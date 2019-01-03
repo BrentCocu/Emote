@@ -3,6 +3,7 @@ package com.example.brentcocu.emote.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.brentcocu.emote.util.Event
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
@@ -12,10 +13,10 @@ abstract class BaseViewModel : ViewModel(), AnkoLogger {
 
     private val compositeDisposable = CompositeDisposable()
 
-    private val _onMessage = MutableLiveData<Int>()
-    val onMessage: LiveData<Int> = _onMessage
+    private val _onMessage = MutableLiveData<Event<Int>>()
+    val onMessage: LiveData<Event<Int>> = _onMessage
 
-    protected fun sendMessage(resId: Int) = _onMessage.postValue(resId)
+    protected fun sendMessage(resId: Int) = _onMessage.postValue(Event(resId))
 
     protected fun registerDisposable(disposable: Disposable) = disposable.addTo(compositeDisposable)
 

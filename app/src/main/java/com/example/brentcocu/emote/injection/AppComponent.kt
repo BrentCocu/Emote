@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.brentcocu.emote.repositories.EmotionRepository
 import com.example.brentcocu.emote.repositories.MomentRepository
 import com.example.brentcocu.emote.viewmodels.EmotionManagementViewModel
+import com.example.brentcocu.emote.viewmodels.MomentOverviewViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -13,6 +14,7 @@ interface AppComponent {
 
     // Register classes requiring injection
     fun inject(emotionManagementViewModel: EmotionManagementViewModel)
+    fun inject(momentOverviewViewModel: MomentOverviewViewModel)
     fun inject(emotionRepository: EmotionRepository)
     fun inject(momentRepository: MomentRepository)
 
