@@ -37,9 +37,9 @@ abstract class AppDatabase : RoomDatabase(), AnkoLogger {
                 1,
                 1,
                 Date(),
-                "I feel angry",
+                "I have main constraint layout, and also additional layout footer where i inflate it and add it to my main constraint. The problem is even though i set constraint to set the width to full (match_parent) its not working it center the view but it wrap content its not extended through all screen.",
                 listOf("Jane Doe", "Harry Tubman"),
-                "Head hurts"
+                "I have main constraint layout, and also additional layout footer where i inflate it and add it to my main constraint. The problem is even though i set constraint to set the width to full (match_parent)."
             ),
             Moment(
                 2,

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.brentcocu.emote.databinding.EmotionManagementFragmentBinding
+import com.example.brentcocu.emote.datamodels.Emotion
 import com.example.brentcocu.emote.viewmodels.EmotionManagementViewModel
 
 class EmotionManagementFragment : Fragment() {
@@ -37,6 +38,8 @@ class EmotionManagementFragment : Fragment() {
             layoutManager = LinearLayoutManager(this@EmotionManagementFragment.context)
             adapter = this@EmotionManagementFragment.adapter
         }
+
+        binding.addBttn.setOnClickListener { model.select(Emotion()) }
 
         setupCallbacks()
     }

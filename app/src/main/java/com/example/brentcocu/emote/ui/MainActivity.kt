@@ -24,7 +24,7 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
         setupMenu()
 
-        showEmotionManagementFragment()
+        showMomentOverviewFragment()
     }
 
     private fun showEmotionManagementFragment(): Boolean {
@@ -33,8 +33,6 @@ class MainActivity : BaseActivity() {
 
         val model = EmotionManagementViewModel.getScopedInstance(this)
         handleMessages(model)
-
-        binding.fab.setOnClickListener { model.select(Emotion()) }
 
         return true
     }
@@ -59,8 +57,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupMenu() {
-        binding.bar.replaceMenu(R.menu.main)
-        binding.bar.setOnMenuItemClickListener {
+        binding.bottomNavigation.setOnNavigationItemReselectedListener {  }
+        binding.bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.overview -> showMomentOverviewFragment()
                 R.id.emotions -> showEmotionManagementFragment()

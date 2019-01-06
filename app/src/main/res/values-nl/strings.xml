@@ -4,7 +4,7 @@
     <string name="emotion_name">Naam</string>
     <string name="save">Opslaan</string>
     <string name="delete">Verwijderen</string>
-    <string name="menu_overview">Overzicht</string>
+    <string name="menu_overview">Momenten</string>
     <string name="menu_emotions">Emoties</string>
     <string name="menu_settings">Instellingen</string>
     <string name="title_emotions">Emoties</string>
@@ -18,4 +18,13 @@
     <string name="info_emotion_add">Een nieuwe emotie werd toegevoegd.</string>
     <string name="info_emotion_delete">De emotie werd verwijderd.</string>
     <string name="title_moments">Momenten</string>
+    <string name="moment_overview_description">Geest</string>
+    <string name="moment_overview_people">Mensen</string>
+    <string name="moment_overview_sensations">Lichaam</string>
+    <string name="search">Zoeken</string>
+    <string name="filter_emotion">Filter op emotie</string>
+    <string name="filter_date">Filter op datum</string>
+    <string name="moment_more_show">Toon meer</string>
+    <string name="moment_more_edit">Aanpassen</string>
+    <string name="moment_more_delete">Verwijder</string>
 </resources>

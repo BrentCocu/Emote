@@ -4,7 +4,11 @@
     <color name="lightGrey">#efefef</color>
     <color name="black">#000000</color>
     <color name="blue">#1976d2</color>
+    <color name="darkblue">#01579b</color>
     <color name="transparent">#00000000</color>
     <color name="darkgrey">#9e9e9e</color>
     <color name="red">#bf360c</color>
+    <color name="slightly_less_very_darkgrey">#616161</color>
+    <color name="very_darkgrey">#212121</color>
+    <color name="grey">#b3b3b3</color>
 </resources>
